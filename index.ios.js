@@ -19,6 +19,20 @@ const Images = [
   { image: require('./src/assets/raichu.jpg'), title: "Raichu n.026" },
 ]
 
+const getInterpolate = (animatedScroll, i, imageLength) => {
+  const inputRange = [
+    (i - 1) * width,
+    i * width,
+    (i + 1) * width
+  ];
+  const outputRange = i === 0 ? [0, 0, 150] : [-300, 0, 150];
+  return animatedScroll.interpolate({
+    inputRange,
+    outputRange,
+    extrapolate: "clamp"
+  })
+}
+
 export default class horizontalparallax extends Component {
   constructor(props) {
     super(props);
@@ -50,6 +64,7 @@ export default class horizontalparallax extends Component {
           return <Moment 
             key={i}
             {...image}
+            translateX={getInterpolate(this.state.animatedScroll, i, Images.length)}
           />
         })}
         
